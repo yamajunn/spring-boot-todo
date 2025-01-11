@@ -6,10 +6,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @Data Lombokのアノテーション。クラス内の全てのフィールドに対して、getter、setter、toString、equals、hashCodeなどのメソッドを自動生成する。
@@ -21,7 +20,8 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "projects")
-public class Project {
+@EqualsAndHashCode(callSuper = false) // 親クラスの equals, hashCode を使わない（これを設定しないと警告が出る）
+public class Project extends BaseEntity {
 
   /**
    * @Id JPA（Java Persistence API）のアノテーション。エンティティの主キー（PRIMARY KEY）であることを示す。
@@ -53,28 +53,4 @@ public class Project {
    */
   @Column(name = "deleted_at")
   private LocalDateTime deletedAt;
-
-  @Column(name = "created_at", nullable = false)
-  private LocalDateTime createdAt;
-
-  @Column(name = "updated_at", nullable = false)
-  private LocalDateTime updatedAt;
-
-  /**
-   * @PrePersist JPA（Java Persistence API）のアノテーション。エンティティの新規作成処理が行われる前に呼び出される。
-   */
-  @PrePersist
-  private void onCreate() {
-    LocalDateTime now = LocalDateTime.now();
-    this.setCreatedAt(now);
-    this.setUpdatedAt(now);
-  }
-
-  /**
-   * @PreUpdate JPA（Java Persistence API）のアノテーション。エンティティの更新処理が行われる前に呼び出される。
-   */
-  @PreUpdate
-  private void onUpdate() {
-    this.setUpdatedAt(LocalDateTime.now());
-  }
 }
