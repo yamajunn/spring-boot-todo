@@ -18,8 +18,10 @@ type Props = {
 
 const RightBarTags = ({ onChange }: Props) => {
   const selectedTask = useGetSelectedTask();
+  const selectedTaskTags = selectedTask.tags ?? [];
+
   const onCloseTag = (tagId: number) => {
-    const tags = selectedTask.tags.filter((tag) => tag.id !== tagId);
+    const tags = selectedTaskTags.filter((tag) => tag.id !== tagId);
     onSelectTags(tags);
   };
 
@@ -32,7 +34,7 @@ const RightBarTags = ({ onChange }: Props) => {
 
   return (
     <Flex justifyItems="center" gap={2} p={3}>
-      {selectedTask.tags.map((tag) => (
+      {selectedTaskTags.map((tag) => (
         <ChakraTag
           key={tag.id}
           borderRadius="full"
@@ -43,7 +45,7 @@ const RightBarTags = ({ onChange }: Props) => {
           <TagCloseButton onClick={() => onCloseTag(tag.id)} />
         </ChakraTag>
       ))}
-      <SelectTags selectedTags={selectedTask.tags} onClick={onSelectTags} />
+      <SelectTags selectedTags={selectedTaskTags} onClick={onSelectTags} />
     </Flex>
   );
 };
