@@ -1,6 +1,5 @@
 package com.example.todo.service.tasks;
 
-import java.time.LocalDateTime;
 import org.springframework.stereotype.Service;
 import com.example.todo.dto.response.tasks.TaskBaseResponse;
 import com.example.todo.entity.Task;
@@ -22,8 +21,7 @@ public class TaskToggleService {
         .orElseThrow(() -> new EntityNotFoundException("Task not found with ID: " + id));
 
     // タスクの完了/未完了状態を切り替える。
-    boolean isCompleted = task.getCompletedAt() != null;
-    task.setCompletedAt(isCompleted ? null : LocalDateTime.now());
+    task.toggleCompleted();
 
     // 切り替えたタスクを更新する。
     Task toggledTask = this.taskRepository.save(task);
