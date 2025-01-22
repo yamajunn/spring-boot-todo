@@ -6,6 +6,7 @@ export interface TaskContextType {
   selectedTask?: Task;
   setTasks: (tasks: Task[]) => void;
   upsertTasks: (task: Task) => void;
+  deleteTask: (id: number) => void;
   selectTask: (task: Task) => void;
   resetSelectedTask: () => void;
 }
@@ -25,6 +26,7 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
       setTasks([...tasks, task]);
     }
   };
+  const deleteTask = (id: number) => setTasks(tasks.filter((task) => task.id !== id));
   const [selectedTask, setSelectedTask] = useState<Task | undefined>(undefined);
   const selectTask = (task?: Task) => setSelectedTask(task);
   const resetSelectedTask = () => setSelectedTask(undefined);
@@ -36,6 +38,7 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
         selectedTask,
         setTasks,
         upsertTasks,
+        deleteTask,
         selectTask,
         resetSelectedTask,
       }}
