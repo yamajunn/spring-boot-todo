@@ -8,11 +8,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const RightBarFooter = () => {
   const selectedTask = useGetSelectedTask();
-  const { resetSelectedTask } = useTaskContext();
+  const { resetSelectedTask, deleteTask: deleteTaskByContext } = useTaskContext();
 
   const onClickDeleteTask = async () => {
     await deleteTask(selectedTask.id);
     resetSelectedTask();
+    deleteTaskByContext(selectedTask.id);
   };
 
   return (
